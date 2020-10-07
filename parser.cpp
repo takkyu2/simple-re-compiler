@@ -56,7 +56,7 @@ char expect_chr() {
 }
 
 Node* expr() {
-    if (at_eos()) return nullptr;
+    if (at_eos()) return new Node('E', nullptr, nullptr, Nodekind::EOS);
     Node* node = primes();
     return new Node('.', node, expr(), Nodekind::CONCAT);
 }

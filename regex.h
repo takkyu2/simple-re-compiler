@@ -1,6 +1,8 @@
 #include <string>
 #include <iostream>
 #include <vector>
+#include <queue>
+#include <set>
 
 const int ALPHA_NUM = 26*2;
 
@@ -17,6 +19,7 @@ enum class Nodekind {
     STAR,
     PLUS,
     CHR,
+    EOS,
 };
 
 struct Token {
@@ -32,6 +35,14 @@ struct Node {
     Node* lhs;
     Node* rhs;
     Node(char input_chr, Node* lhs, Node* rhs, Nodekind kind) : chr {input_chr}, lhs {lhs}, rhs {rhs}, kind {kind} {};
+};
+
+class State {
+    public:
+        virtual State* get(char chr) = 0;
+        virtual State* set(char chr) = 0;
+        virtual bool isEnd() = 0;
+        virtual void setEnd() = 0;
 };
 
 Token* parser(std::string input);
