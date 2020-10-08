@@ -39,11 +39,10 @@ struct Node {
 
 class State {
     public:
-        /* virtual std::vector<State*>* get(char chr) = 0; */
         virtual int get_size(char chr) = 0;
         virtual State* get(char chr, int idx) = 0;
         virtual State* set(char chr) = 0;
-        virtual void set_to(char chr, State* to);
+        virtual void set_to(char chr, State* to) = 0;
         virtual bool isEnd() = 0;
         virtual void setEnd() = 0;
 };

@@ -47,8 +47,9 @@ void expect(char op) {
 
 char expect_chr() {
     if (token->kind != Tokenkind::TERMINAL) {
-        std::cerr << "Expect number, but we have " << token->chr << "\n";
-        exit(1);
+        return '%';
+        /* std::cerr << "Expect char, but we have " << token->chr << "\n"; */
+        /* exit(1); */
     }
     char chr = token->chr;
     token = token->next;
@@ -82,5 +83,7 @@ Node* primary() {
         expect(')');
         return node;
     }
-    return new Node(expect_chr(), nullptr, nullptr, Nodekind::CHR);
+    char chr = expect_chr();
+    if (chr == '%') return nullptr;
+    return new Node(chr, nullptr, nullptr, Nodekind::CHR);
 }

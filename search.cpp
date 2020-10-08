@@ -1,9 +1,9 @@
 #include "regex.h"
 
-extern Token *token;
+Token *token;
 
 bool ismatch(std::string input_str, std::string regex) {
-    token = parser(input_str);
+    token = parser(regex);
     Node* head = expr();
     Trie* start_state = new Trie();
     std::queue<State*> que;
@@ -28,12 +28,14 @@ bool simulate(std::string input_str, State* head) {
             int sz = state->get_size(chr);
             for (int i = 0; i < sz; ++i) {
                 new_states.insert(state->get(chr, i));
+                /* std::cout << "NOW AT :" << chr << "\n"; */
             }
         }
         now_states = new_states;
     }
     for (State* state: now_states) {
-        if (state->isEnd()) return true;
+        if (state->isEnd()) 
+            return true;
     }
     return false;
 }
