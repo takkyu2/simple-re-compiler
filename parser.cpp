@@ -23,7 +23,6 @@ std::string add_dots(std::string input) {
 
 Token* parser(std::string input) {
     input = add_dots(input);
-    /* std::cout << input << "\n"; */
     Token* head = new Token('A');
     Token* now = head;
     for (char chr : input) {
