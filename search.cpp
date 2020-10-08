@@ -33,6 +33,7 @@ bool simulate(std::string input_str, State* head) {
         }
         now_states = new_states;
     }
+    tour_unlabeled(now_states);
     for (State* state: now_states) {
         if (state->isEnd()) 
             return true;

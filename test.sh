@@ -21,14 +21,15 @@ assert 1 "abc (abc)"
 
 assert 0 "a a(abc)+"
 assert 1 "aabc a(abc)+"
+assert 1 "abcabc (abc)+"
 assert 1 "abcabcabc (abc)+"
 
 assert 0 "abcabc (abc)?"
 assert 1 "abc (abc)?"
+
 assert 1 "a a(abc)?"
 
-
-# assert 1 "abc (abc)*"
-# assert 1 "abcabc (abc)*"
-# assert 1 "a a(abc)*"
+assert 1 "abc (abc)*"
+assert 1 "abcabc (abc)*"
+assert 1 "a a(abc)*"
 
