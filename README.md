@@ -5,7 +5,7 @@
 This is a simple (and presumably very slow) compiler of regular expressions. It supports minimal numbers of regex operators: ```?, *, +, |```.
 
 ## Usage
-1. ```make run```
+1. ```make```
 2. ```./comp "input string" "regex"``` (ex: ```./comp "abcabcabc" "(abc)*"```)
 
 ## references
