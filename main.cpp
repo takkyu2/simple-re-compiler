@@ -7,8 +7,8 @@ int main(int argc, char** argv) {
     }
     std::string user_input = argv[1], regex = argv[2];
     if (ismatch(user_input, regex)) {
-        return 1;
-    } else {
         return 0;
+    } else {
+        return 1;
     }
 }

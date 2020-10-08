@@ -10,10 +10,10 @@ bool ismatch(std::string input_str, std::string regex) {
     que.push(start_state);
     compile_re(head, que);
     if (simulate(input_str, start_state)) {
-        std::cout << "String matched\n";
+        std::cout << "Matched!\n";
         return true;
     } else {
-        std::cout << "Failed\n";
+        std::cout << "Not matched...\n";
         return false;
     }
 }

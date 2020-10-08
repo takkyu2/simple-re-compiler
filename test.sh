@@ -14,29 +14,29 @@ assert() {
     fi
 }
 
-assert 1 "a a"
-assert 0 "abc def"
-assert 1 "abc abc"
-assert 1 "abc (abc)"
+assert 0 "a a"
+assert 1 "abc def"
+assert 0 "abc abc"
+assert 0 "abc (abc)"
 
-assert 0 "a a(abc)+"
-assert 1 "aabc a(abc)+"
-assert 1 "abcabc (abc)+"
-assert 1 "abcabcabc (abc)+"
+assert 1 "a a(abc)+"
+assert 0 "aabc a(abc)+"
+assert 0 "abcabc (abc)+"
+assert 0 "abcabcabc (abc)+"
 
-assert 0 "abcabc (abc)?"
-assert 1 "abc (abc)?"
+assert 1 "abcabc (abc)?"
+assert 0 "abc (abc)?"
 
-assert 1 "a a(abc)?"
+assert 0 "a a(abc)?"
 
-assert 1 "abc (abc)*"
-assert 1 "abcabc (abc)*"
-assert 1 "a a(abc)*"
+assert 0 "abc (abc)*"
+assert 0 "abcabc (abc)*"
+assert 0 "a a(abc)*"
 
-assert 1 "b a|b"
-assert 1 "a a|b"
-assert 0 "c a|b"
+assert 0 "b a|b"
+assert 0 "a a|b"
+assert 1 "c a|b"
 
-assert 1 "abc (abc)|(def)"
-assert 1 "def (abc)|(def)"
-assert 0 "de (abc)|(def)"
+assert 0 "abc (abc)|(def)"
+assert 0 "def (abc)|(def)"
+assert 1 "de (abc)|(def)"
