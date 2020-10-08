@@ -4,6 +4,10 @@
 
 This is a simple compiler of regular expressions. It supports minimal numbers of operators: ```?, *, +, |```.
 
+## Usage
+1. ```make run```
+2. ```./comp "input string" "regex"``` (ex: ```./comp "abcabcabc" "(abc)*"```)
+
 ## references
 The transformation from regex to the nondeterministic finite automata with ε-moves is based on the Thompson algorithm, of which details are clearly explained in [this article](https://swtch.com/~rsc/regexp/regexp1.html) by Russ Cox.
 
