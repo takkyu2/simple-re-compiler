@@ -1,59 +1,89 @@
 #include "regex.h"
 
-std::queue<State*> nownodes;
-
-void comb_queues_with_nownodes(std::queue<State*>& destnodes) {
-    std::set<State*> nodeset;
-    while (destnodes.size()) {
-        nodeset.insert(destnodes.front()); destnodes.pop();
-    }
-    while (nownodes.size()) {
-        nodeset.insert(nownodes.front()); nownodes.pop();
-    }
-    for (State* elem : nodeset) {
-        nownodes.push(elem);
-    }
-    return;
-}
-
-void compile_re(Node* now) {
-    /* if (now == nullptr) return; */
-    int sz = nownodes.size();
+void compile_re(Node* now, std::queue<State*>& nodelist) {
+    if (now == nullptr) return;
+    int sz = nodelist.size();
     switch (now->kind) {
         case Nodekind::EOS:
             for (int i = 0; i < sz; ++i) {
-                State* tmp = nownodes.front();nownodes.pop();
+                State* tmp = nodelist.front();nodelist.pop();
                 tmp->setEnd();
             }
             return;
         case Nodekind::CHR:
             for (int i = 0; i < sz; ++i) {
-                State* tmp = nownodes.front();nownodes.pop();
-                nownodes.push(tmp->set(now->chr));
+                State* tmp = nodelist.front();nodelist.pop();
+                nodelist.push(tmp->set(now->chr));
             }
             return;
         case Nodekind::CONCAT:
-            compile_re(now->lhs);
-            compile_re(now->rhs);
+            compile_re(now->lhs, nodelist);
+            compile_re(now->rhs, nodelist);
             return;
         case Nodekind::OR: {
-            std::queue<State*> orignodes = nownodes;
-            compile_re(now->lhs);
-            std::queue<State*> destnodes = nownodes;
-            nownodes = orignodes;
-            compile_re(now->rhs);
-            comb_queues_with_nownodes(destnodes);
+            std::queue<State*> e1list, e2list;
+            for (int i = 0; i < sz; ++i) {
+                State* tmp = nodelist.front();nodelist.pop();
+                e1list.push(tmp->set('#'));
+                e2list.push(tmp->set('#'));
+            }
+            compile_re(now->lhs, e1list);
+            compile_re(now->rhs, e2list);
+            while (e1list.size()) {
+                State* tmp = e1list.front();e1list.pop();
+                nodelist.push(tmp);
+            }
+            while (e2list.size()) {
+                State* tmp = e2list.front();e2list.pop();
+                nodelist.push(tmp);
+            }
             return;
         }
         case Nodekind::QUESTION: {
-            std::queue<State*> orignodes = nownodes;
-            compile_re(now->lhs);
-            comb_queues_with_nownodes(orignodes);
+            std::queue<State*> e1list, e2list;
+            for (int i = 0; i < sz; ++i) {
+                State* tmp = nodelist.front();nodelist.pop();
+                e1list.push(tmp->set('#'));
+                e2list.push(tmp->set('#'));
+            }
+            compile_re(now->lhs, e1list);
+            while (e1list.size()) {
+                State* tmp = e1list.front();e1list.pop();
+                nodelist.push(tmp);
+            }
+            while (e2list.size()) {
+                State* tmp = e2list.front();e2list.pop();
+                nodelist.push(tmp);
+            }
             return;
         }
-
+        case Nodekind::STAR : {
+            for (int i = 0; i < sz; ++i) {
+                State* tmp = nodelist.front();nodelist.pop();
+                std::queue<State*> enow;
+                enow.push(tmp->set('#'));
+                compile_re(now->lhs, enow);
+                while (enow.size()) {
+                    State* tmp2 = enow.front();enow.pop();
+                    tmp2->set_to('#', tmp);
+                }
+                nodelist.push(tmp->set('#'));
+            }
+            return;
+        }
+        case Nodekind::PLUS : {
+            for (int i = 0; i < sz; ++i) {
+                State* tmp = nodelist.front();nodelist.pop();
+                std::queue<State*> enow;
+                enow.push(tmp->set('#'));
+                compile_re(now->lhs, enow);
+                while (enow.size()) {
+                    State* tmp2 = enow.front();enow.pop();
+                    tmp2->set_to('#', tmp);
+                    nodelist.push(tmp2);
+                }
+            }
+            return;
+        }
     }
-    compile_re(now->lhs);
-
-    compile_re(now->rhs);
 }
