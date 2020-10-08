@@ -2,7 +2,7 @@
 
 ### CAUTION: The code is at very early stage, so it may not work properly.
 
-This is a simple (and presumably very slow) compiler of regular expressions. It supports minimal numbers of operators: ```?, *, +, |```.
+This is a simple (and presumably very slow) compiler of regular expressions. It supports minimal numbers of regex operators: ```?, *, +, |```.
 
 ## Usage
 1. ```make run```
