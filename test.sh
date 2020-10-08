@@ -33,3 +33,10 @@ assert 1 "abc (abc)*"
 assert 1 "abcabc (abc)*"
 assert 1 "a a(abc)*"
 
+assert 1 "b a|b"
+assert 1 "a a|b"
+assert 0 "c a|b"
+
+assert 1 "abc (abc)|(def)"
+assert 1 "def (abc)|(def)"
+assert 0 "de (abc)|(def)"
